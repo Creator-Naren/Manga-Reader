@@ -168,3 +168,5 @@ Questions? Open an [issue](https://github.com/Creator-Naren/Manga-Reader/issues)
 **Read, enjoy, respect the source.** 📖✨
 
 </div>
+OutPut:
+<img width="1920" height="3483" alt="Mangareadr (1)" src="https://github.com/user-attachments/assets/b784960a-778b-4ec1-b0e2-a494fa4c03a9" />
