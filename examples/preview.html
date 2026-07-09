@@ -1,0 +1,109 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width,initial-scale=1" />
+  <title>Panel — Preview Gallery</title>
+  <link rel="stylesheet" href="dark.css" />
+</head>
+<body>
+  <header class="site-header">
+    <div class="container">
+      <h1 class="logo">PANEL</h1>
+      <form id="searchForm" class="search" onsubmit="return false;">
+        <input id="q" type="search" placeholder="Search manga title..." aria-label="Search manga" />
+        <button id="go">GO</button>
+      </form>
+    </div>
+  </header>
+
+  <main class="container">
+    <h2 class="section-title">POPULAR</h2>
+    <div id="grid" class="grid">
+      <!-- Cards inserted by JS -->
+    </div>
+    <footer class="footer">Manga data and images served via the MangaDex API (api.mangadex.org). All credit for content belongs to MangaDex and the scanlation groups listed on each chapter.</footer>
+  </main>
+
+  <template id="cardTpl">
+    <article class="card">
+      <div class="thumbWrap">
+        <img class="thumb" src="" alt="cover" loading="lazy" />
+      </div>
+      <div class="meta">
+        <h3 class="title"></h3>
+      </div>
+    </article>
+  </template>
+
+  <script>
+    // Demo data: titles + placeholder covers (replace with real data from your app)
+    const titles = [
+      "Na Honjaman Level-Up",
+      "Sono Bisque Doll wa Koi o Suru",
+      "Kage no Jitsuryokusha ni Naritakute!",
+      "Tensei Shitara Slime datta Ken",
+      "Chainsaw Man",
+      "Sousou no Frieren",
+      "One Punch-Man",
+      "Otome Game Sekai wa Mob ni Kibishii Sekai desu",
+      "Mushoku Tensei: Isekai Ittara Honki Dasu",
+      "Komi-san wa Komyushou Desu",
+      "Lv2 kara Cheat datta Moto Yuusha Kouho no Mattari Isekai Life",
+      "Ijiranaide, Nagatoro-san",
+      "Tsuki ga Michibiku Isekai Douchuu",
+      "Kumo desu ga, Nani ka?",
+      "Mairimashita! Iruma-kun",
+      "Ki ni Natteru Hito ga Otoko ja Nakatta",
+      "Mieruko-chan",
+      "Anta to Osananajimi tte dake demo Iya nanoni! ~Zekkou kara Hajimaru~",
+      "Akuyaku Reijou Level 99",
+      "Kusuriya no Hitorigoto",
+      "Jujutsu Kaisen",
+      "Kaoru Hana wa Rin to Saku",
+      "One Piece",
+      "Maou no Ore ga Dorei Elf wo Yome ni Shitanda ga, Dou Medereba Ii?"
+    ];
+
+    const grid = document.getElementById('grid');
+    const tpl = document.getElementById('cardTpl');
+
+    function makeCover(i){
+      // Use picsum.photos for attractive placeholder images
+      // seed by index for consistent images
+      return `https://picsum.photos/seed/manga-${i}/300/440`;
+    }
+
+    function render(all){
+      grid.innerHTML = '';
+      all.forEach((t, i) => {
+        const node = tpl.content.cloneNode(true);
+        const img = node.querySelector('img');
+        img.src = makeCover(i+1);
+        img.alt = t + ' cover';
+        node.querySelector('.title').textContent = t;
+        grid.appendChild(node);
+      });
+    }
+
+    // initial render
+    render(titles);
+
+    // Simple search
+    const q = document.getElementById('q');
+    document.getElementById('searchForm').addEventListener('input', () => {
+      const v = q.value.trim().toLowerCase();
+      if(!v){ render(titles); return; }
+      render(titles.filter(t => t.toLowerCase().includes(v)));
+    });
+
+    // Keyboard shortcut: / focuses search
+    window.addEventListener('keydown', (e) => {
+      if(e.key === '/'){
+        e.preventDefault();
+        q.focus();
+      }
+    });
+  </script>
+</body>
+</html>
